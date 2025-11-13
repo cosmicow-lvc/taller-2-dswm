@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "es2020",             /* Compila a JavaScript moderno */
+    "module": "commonjs",            /* Usa el sistema de módulos de Node.js */
+    "rootDir": "./src",              /* Dónde está tu código TS */
+    "outDir": "./dist",              /* Dónde guardar el código JS compilado */
+    "esModuleInterop": true,         /* Mejora la compatibilidad con módulos JS */
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,                  /* Habilita todas las revisiones estrictas */
+    "skipLibCheck": true,
+    "resolveJsonModule": true
+  },
+  "include": ["src/**/*"],           /* Solo compila lo que está en src */
+  "exclude": ["node_modules"]
+}
