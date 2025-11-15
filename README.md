@@ -9,15 +9,124 @@
 
 Tiene esta estructura tanto tanto [Imagen]
 
-## API 1: Tema - NestJS (Node.js + Typescript)
+## API 1: BolaMagica - NestJS (Node.js + Typescript)
 
 Para los metodos CRUD tienen el formato tanto tanto retornan elementos con esta estructura JSON tanto tanto
+
+**Endpoints de la API**
+
+```
+GET /bola_magica
+```
+Retorna una respuesta aleatoria del conjunto total de frases.
+
+Query Params: ?locale=es (opcional, idioma *en* por defecto).
+```
+{
+  "reading": "Las perspectivas son buenas.",
+  "locale": "es"
+}
+```
+
+
+```
+GET /api/categories
+```
+Retorna un objeto con todas las respuestas disponibles, agrupadas por su categoría (positiva, neutral o negativa).
+```
+{
+  "positive": [
+    "Es cierto.",
+    "Decididamente sí.",
+    "Sin lugar a dudas.",
+    "..."
+  ],
+  "neutral": [
+    "Respuesta confusa, intenta de nuevo.",
+    "Pregunta de nuevo más tarde.",
+    "..."
+  ],
+  "negative": [
+    "No cuentes con ello.",
+    "Mi respuesta es no.",
+    "..."
+  ],
+  "locale": "es"
+}
+
+```
+
+
+```
+GET /api/:category
+```
+Retorna una respuesta aleatoria de una categoría específica.
+
+- Path Params: category debe ser positive, negative o neutral.
+
+- Query Params: ?locale=es.
+
+Estructura JSON de respuesta:
+```
+{
+  "reading": "Puedes contar con ello.",
+  "category": "positive",
+  "locale": "es"
+}
+
+```
 
 Para levantar la API se ocupa
 
 ```
 npm install
-npm run dev
+npm run start:dev
+```
+
+
+```
+GET /api/biased y POST /api/biased
+```
+Retorna una respuesta "sesgada" basada en un análisis de sentimiento simulado de la pregunta.
+
+GET Query Params: ?question=... (requerido), ?lucky=true (opcional), ?locale=es (opcional).
+
+POST Body: Acepta un JSON con { "question": "...", "lucky": true, "locale": "es" }.
+
+```
+{
+  "reading": "Mi respuesta es no.",
+  "question": "Will I win the lottery?",
+  "sentiment": {
+    "score": 0,
+    "comparative": 0,
+    "calculation": [],
+    "tokens": ["will", "i", "win", "the", "lottery"],
+    "words": [],
+    "positive": [],
+    "negative": []
+  },
+  "locale": "es",
+  "lucky": false
+}
+
+```
+
+**Para levantar la API se debe:**
+
+1.Crear la base de datos
+
+Por defecto, la aplicación buscará una llamada *bolamagica_db*.
+
+2.Configurar archivo env
+
+Establecer su contraseña dentro del archivo .env
+
+3.Comandos de ejecución
+
+```
+npm install
+npm run start:dev
 ```
 
 ## Base de datos 2 - PostgreSQL
