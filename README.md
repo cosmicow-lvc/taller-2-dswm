@@ -30,7 +30,7 @@ Query Params: ?locale=es (opcional, idioma *en* por defecto).
 
 
 ```
-GET /api/categories
+GET /bola_magica/categories
 ```
 Retorna un objeto con todas las respuestas disponibles, agrupadas por su categoría (positiva, neutral o negativa).
 ```
@@ -58,7 +58,7 @@ Retorna un objeto con todas las respuestas disponibles, agrupadas por su categor
 
 
 ```
-GET /api/:category
+GET /bola_magica/:category
 ```
 Retorna una respuesta aleatoria de una categoría específica.
 
@@ -85,7 +85,7 @@ npm run start:dev
 
 
 ```
-GET /api/biased y POST /api/biased
+GET /bola_magica/biased y POST /bola_magica/biased
 ```
 Retorna una respuesta "sesgada" basada en un análisis de sentimiento simulado de la pregunta.
 
