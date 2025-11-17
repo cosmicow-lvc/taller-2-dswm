@@ -146,9 +146,26 @@ npm run dev
 
 ## Base de datos 3 - PostgreSQL
 
-Tiene esta estructura tanto tanto [Imagen]
+La base de datos contiene 2 tablas, donde una pertenece a personajes de la serie "Monster High" y otra a las especies que existen en ese mundo.
+La tabla personajes contiene:
+ID                  PK
+NOMBRE              
+EDAD                
+ID_ESPECIE          FK
+DESCRIPCIÓN
+
+La tabla especies contiene:
+ID                  PK
+ESPECIE
+DESCRIPCIÓN
+
+La relación es 1:N, una especie tiene muchos personajes.
+
+Justificación: el uso de postgres con fastapi conduce a una buena integración de la misma con la utilización de python, permitiendo operaciones asincrónas y operaciones rápidas en la API
 
 ## API 3: Tema - Python (FastAPI)
+
+Para ver todos los metodos y probarlos, en navegador http://127.0.0.1:8000/docs
 
 Para los metodos CRUD tienen el formato:
 
@@ -170,13 +187,22 @@ GET /personajes
     "personalidad": "Valiente y feroz"
   }
 ]
+... ver SWAGGER http://127.0.0.1:8000/docs
 
+Para levantar la base de datos se ocupa:
+cd api3/postgres
+psql -U postgres -c "CREATE DATABASE monster_high;"
+psql -U postgres -d monster_high -f init.sql
 
-Para levantar la API se ocupa
+Instalacion dependencias:
+pip install fastapi uvicorn[standard] asyncpg
+
+Para levantar la api:
+uvicorn main:app --reload
+
 
 ```
-npm install
-npm run dev
+
 ```
 
 ## Frontend
