@@ -153,6 +153,23 @@ Tiene esta estructura tanto tanto [Imagen]
 Para los metodos CRUD tienen el formato:
 
 Retornan elementos con esta estructura JSON:
+GET /personajes
+[
+  {
+    "id": 1,
+    "nombre": "Draculaura",
+    "edad": 16,
+    "especie_id": 1,
+    "personalidad": "Amable y dulce"
+  },
+  {
+    "id": 2,
+    "nombre": "Clawdeen Wolf",
+    "edad": 16,
+    "especie_id": 2,
+    "personalidad": "Valiente y feroz"
+  }
+]
 
 
 Para levantar la API se ocupa
