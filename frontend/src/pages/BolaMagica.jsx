@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Navbar from '../components/navbar'
 
 export default function BolaMagica() {
-  const apiBase = import.meta.env.VITE_API_BASE || 'http://localhost:3000'
+  const apiBase = 'http://localhost:3001' // ajusta si tu backend está en otro puerto
   const [prompt, setPrompt] = useState('')
   const [result, setResult] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -15,35 +15,30 @@ export default function BolaMagica() {
     setResult(null)
 
     try {
-      // Ajusta el endpoint y el shape del body según tu controlador (aquí usamos POST /bolamagica con { question })
-      const res = await fetch(`${apiBase}/bolamagica`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question: prompt }),
-      })
-
-      if (!res.ok) {
-        const text = await res.text()
-        throw new Error(`${res.status} ${res.statusText} - ${text}`)
-      }
-
+      // Construye URL correctamente y usa '&' entre query params
+      const url = `${apiBase}/bola_magica?locale=es${prompt.trim() ? `&question=${encodeURIComponent(prompt.trim())}` : ''}`
+      const res = await fetch(url, { method: 'GET' })
+      if (!res.ok) throw new Error(`${res.status} ${res.statusText}`)
       const data = await res.json()
-      // Intenta detectar la propiedad de respuesta más común
-      setResult(data.answer ?? data.result ?? data.message ?? data)
+      setResult(data)
     } catch (err) {
-      console.error(err)
-      setError(err.message || 'Error desconocido')
+      setError(err.message ?? String(err))
     } finally {
       setLoading(false)
     }
   }
+
+  // Calcula sólo el valor de la clave "reading"
+  const reading = result == null
+    ? null
+    : (typeof result === 'object' ? (result.reading ?? null) : String(result))
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
       <Navbar />
       <main className="max-w-3xl mx-auto px-6 py-12">
         <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Bola Mágica</h1>
-        <p className="mt-2 text-slate-600 dark:text-slate-300">Escribe tu pregunta y la API te responderá.</p>
+        <p className="mt-2 text-slate-600 dark:text-slate-300">Escribe tu pregunta y pulsa Preguntar.</p>
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
           <label className="block">
@@ -51,9 +46,8 @@ export default function BolaMagica() {
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
               rows={4}
-              placeholder="¿Debo estudiar hoy? ¿Cuál es el mejor Pokémon para comenzar?"
+              placeholder="Escribe tu pregunta (opcional)"
               className="w-full rounded-md border px-3 py-2 resize-none"
-              required
             />
           </label>
 
@@ -82,7 +76,9 @@ export default function BolaMagica() {
           {result && (
             <div className="mt-4 p-4 bg-white dark:bg-slate-800 border rounded-md text-slate-900 dark:text-slate-100">
               <strong>Respuesta:</strong>
-              <div className="mt-2 whitespace-pre-wrap">{typeof result === 'string' ? result : JSON.stringify(result, null, 2)}</div>
+              <div className="mt-2 whitespace-pre-wrap">
+                {reading ?? JSON.stringify(result, null, 2)}
+              </div>
             </div>
           )}
 
