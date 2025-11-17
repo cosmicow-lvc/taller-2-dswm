@@ -32,3 +32,20 @@ async def eliminar_personaje(id: int):
     await conn.execute("DELETE FROM personajes WHERE id = $1;", id)
     await conn.close()
     return {"mensaje": "Personaje eliminado"}
+async def actualizar_personaje(id: int, nombre=None, edad=None, especie_id=None, personalidad=None):
+    conn = await get_connection()
+    query = """
+    UPDATE personajes
+    SET 
+        nombre = COALESCE($1, nombre),
+        edad = COALESCE($2, edad),
+        especie_id = COALESCE($3, especie_id),
+        personalidad = COALESCE($4, personalidad)
+    WHERE id = $5
+    RETURNING *;
+    """
+    row = await conn.fetchrow(query, nombre, edad, especie_id, personalidad, id)
+    await conn.close()
+    if row:
+        return dict(row)
+    return {"error": "Personaje no encontrado"}
