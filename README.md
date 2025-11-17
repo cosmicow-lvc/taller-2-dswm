@@ -150,7 +150,10 @@ Tiene esta estructura tanto tanto [Imagen]
 
 ## API 3: Tema - Python (FastAPI)
 
-Para los metodos CRUD tienen el formato tanto tanto retornan elementos con esta estructura JSON tanto tanto
+Para los metodos CRUD tienen el formato:
+
+Retornan elementos con esta estructura JSON:
+
 
 Para levantar la API se ocupa
 

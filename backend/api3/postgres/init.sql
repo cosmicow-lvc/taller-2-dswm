@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS personajes;
+DROP TABLE IF EXISTS especies;
 CREATE DATABASE monster_high;
 \c monster_high;
 
@@ -14,3 +16,11 @@ CREATE TABLE personajes (
     especie_id INT REFERENCES especies(id),
     personalidad TEXT
 );
+-- Datos de ejemplo
+INSERT INTO especies(nombre, descripcion) VALUES
+('Dracula', 'Vampiros'),
+('Lobo', 'Hombres lobo');
+
+INSERT INTO personajes(nombre, edad, especie_id, personalidad) VALUES
+('Draculaura', 16, 1, 'Amable y dulce'),
+('Clawdeen Wolf', 16, 2, 'Valiente y feroz');

@@ -3,7 +3,8 @@ from queries.personajes import (
     obtener_personajes,
     obtener_personaje,
     crear_personaje,
-    eliminar_personaje
+    eliminar_personaje,
+    actualizar_personaje
 )
 from queries.especies import obtener_especies, crear_especie
 
@@ -24,7 +25,11 @@ async def ver_personaje(id: int):
 
 @app.post("/personajes")
 async def nuevo_personaje(nombre: str, edad: int, especie_id: int, personalidad: str):
-    return await crear_personaje(nombre, edad, especie_id, personalidad)
+    return await crear_personaje(id,nombre, edad, especie_id, personalidad)
+
+@app.put("/personajes/{id}")
+async def modificar_personaje(id: int, nombre: str = None, edad: int = None, especie_id: int = None, personalidad: str = None):
+    return await actualizar_personaje(id, nombre, edad, especie_id, personalidad)
 
 @app.delete("/personajes/{id}")
 async def borrar_personaje(id: int):
