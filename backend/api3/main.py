@@ -9,7 +9,7 @@ from queries.especies import obtener_especies, crear_especie
 
 app = FastAPI()
 
-# -------------------- PERSONAJES --------------------
+
 
 @app.get("/personajes")
 async def lista_personajes():
@@ -31,7 +31,6 @@ async def borrar_personaje(id: int):
     return await eliminar_personaje(id)
 
 
-# -------------------- ESPECIES --------------------
 
 @app.get("/especies")
 async def lista_especies():
