@@ -83,7 +83,7 @@ export default function BolaMagica() {
           )}
 
           {!result && !error && !loading && (
-            <div className="mt-4 text-slate-500">Aquí aparecerá la respuesta de la API.</div>
+            <div className="mt-4 text-slate-500">Aquí aparecerá la decisión de los dioses del azar.</div>
           )}
         </section>
       </main>
