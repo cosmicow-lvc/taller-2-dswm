@@ -2,6 +2,21 @@
 
 services:
   # Bases de datos
+  api2:
+    build: ./backend/api2/Express
+    volumes:
+      - ./backend/api2/Express:/app
+    ports:
+      - "3006:3000"
+    environment:
+      - PORT=3000
+      - DB_HOST=express-db
+      - DB_USER=postgres
+      - DB_PASSWORD=123
+      - DB_NAME=pokemon
+    depends_on:
+      - express-db
+
   nest-db:
     image: postgres:15
     environment:

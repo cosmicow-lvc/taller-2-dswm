@@ -31,7 +31,8 @@ Asegúrate de tener instalado lo siguiente en tu máquina local:
 1.  **Crear la Base de Datos:**
     * Abre pgAdmin (o tu cliente de SQL) y conéctate a tu servidor PostgreSQL.
     * Crea una nueva base de datos. El nombre recomendado es `pokedex_db`.
-
+    ** Poblar la base de datos:**
+        - docker compose run api2 npm run seed
 2.  **Configurar Variables de Entorno (`.env`):**
     * En la carpeta `Express`, renombra el archivo `.env.example` a `.env`.
     * Abre el archivo `.env` y rellena los datos de tu base de datos local:
