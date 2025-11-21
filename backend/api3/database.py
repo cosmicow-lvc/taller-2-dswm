@@ -5,6 +5,6 @@ async def get_connection():
         user="postgres",
         password="123",
         database="monster_high",
-        host="127.0.0.1",
+        host="fastapi-db",
         port="5432"
     )

@@ -1,4 +1,4 @@
-import Navbar from '../components/navbar'
+import Navbar from '../components/Navbar'
 import Hero from '../components/Hero'
 import FeatureSection from '../components/FeatureSection'
 import pokemonImg from '../images/pokemon.jpg'

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react"
-import Navbar from "../components/navbar"
+import Navbar from "../components/Navbar"
 
 export default function MonsterHigh() {
-  const API_BASE = "http://127.0.0.1:8000"
+  const API_BASE = "http://localhost:3002"
   const [personajes, setPersonajes] = useState([])
   const [especies, setEspecies] = useState([])
   const [loading, setLoading] = useState(true)

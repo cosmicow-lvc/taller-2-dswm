@@ -1,0 +1,78 @@
+
+
+services:
+  # Bases de datos
+  nest-db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: bola_magica
+    ports:
+      - "5433:5432"
+
+  fastapi-db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: monster_high
+    volumes:
+      - ./backend/api3/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5434:5432"
+
+  express-db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: pokemon
+    volumes:
+      - ./backend/api2/Postgresql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5435:5432"
+
+  # Backends
+  backend-nest:
+    build: ./backend/api-nest
+    depends_on:
+      - nest-db
+    environment:
+        DB_HOST: nest-db
+        DB_PORT: 5432
+        DB_USERNAME: postgres
+        DB_PASSWORD: 123
+        DB_NAME: bola_magica
+    ports:
+      - "3001:3000"
+
+  backend-fastapi:
+    build: ./backend/api3
+    depends_on:
+      - fastapi-db
+    environment:
+      DATABASE_URL: postgres://postgres:123@fastapi-db:5432/monster_high
+    ports:
+      - "3002:3000"
+
+  backend-express:
+    build: 
+      context: ./backend/api2/Express
+      dockerfile: dockerfile
+    depends_on:
+      - express-db
+    environment:
+      DATABASE_URL: postgres://postgres:123@express-db:5432/pokemon
+    ports:
+      - "3003:3000"
+
+  # Frontend React
+  frontend-react:
+    build: ./frontend
+    depends_on:
+      - backend-nest
+      - backend-fastapi
+      - backend-express
+    ports:
+      - "3000:3000"

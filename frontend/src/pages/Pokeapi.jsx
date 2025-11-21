@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react"
-import Navbar from "../components/navbar"
+import Navbar from "../components/Navbar"
 
 export default function Pokemon() {
-  const API_BASE = "http://localhost:3000"
+  const API_BASE = "http://localhost:3003"
 
   const [items, setItems] = useState([])
   const [loading, setLoading] = useState(true)
@@ -24,7 +24,7 @@ export default function Pokemon() {
         }
 
         let data = null
-        try { data = await tryFetch("/pokemon") } catch { /* ignore */ }
+        try { data = await tryFetch("/api/pokemon") } catch { /* ignore */ }
         if (!data) throw new Error("No se obtuvo lista desde ni /pokemon")
 
         // normalizar respuesta a array
