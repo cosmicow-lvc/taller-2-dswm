@@ -112,10 +112,7 @@ export default function Pokemon() {
                     {openId === id && (
                       <div className="border-t px-4 py-3 text-sm text-slate-700 dark:text-slate-200 bg-gray-50 dark:bg-slate-900">
                         <div className="text-xs text-slate-500 space-y-1">
-                            {types && <div>Tipo: {types}</div>}
-                            {weight && <div>Peso: {weight}</div>}
-                            {height && <div>Altura: {height}</div>}
-
+                           
 
                           <div className="mt-3 flex justify-end">
                             <button onClick={() => setOpenId(null)} className="px-2 py-1 border rounded text-xs">Cerrar</button>

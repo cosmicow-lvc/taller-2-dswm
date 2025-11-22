@@ -116,7 +116,7 @@ export default function MonsterHigh() {
                 const nombre = p.nombre ?? p.name ?? `#${id}`
                 const especieKey = p.especie_id ?? p.especie ?? p.especieId ?? p.specie
                 const especie = especieMap[especieKey] ?? (typeof especieKey === "string" ? especieKey : "Desconocida")
-                const descripcion = p.descripcion ?? p.description ?? null
+                const descripcion = p.personalidad ?? p.description ?? null
                 const image = p.image ?? p.foto ?? p.img ?? null
 
                 return (
