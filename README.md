@@ -5,15 +5,18 @@
 3. Diego Adaos, 21535504-7
 4. Antonio Tabilo, 21668377-3
 
-
-## Para utilizar Docker
-
-En docker_compose.yml es necesario cambiar las credenciales de las bases de datos a las configuradas en cada maquina.
 # Prerrequisitos
+
   Docker: https://docs.docker.com/get-started
-# docker_compose.yml
+
+# Como levantar la aplicación
+  
+### Paso 1: Editar credenciales
+
+Cambiar todas la claves que digan **Mi_Usuario_Postgres** y **Mi_Contraseña_Postgres** en docker-compose.yml
+
+```
 services:
-  # Bases de datos
   api2:
     build: ./backend/api2/Express
     volumes:
@@ -90,13 +93,46 @@ services:
     depends_on:
       - express-db
     environment:
-      DATABASE_URL: postgres://Mi_Usuario_Postgres:Mi_Contraseña@express-db:5432/pokemon 
+      DATABASE_URL: postgres://Mi_Usuario_Postgres:Mi_Contraseña_Postgres@express-db:5432/pokemon 
       
     ports:
       - "3003:3000"
+```
 
-## Levantar Docker
- - docker compose up --build
+Cambiar todas la claves que digan **Mi_Usuario_Postgres** y **Mi_Contraseña_Postgres** en backend/api3/database.py
+
+```
+    user="Mi_Usuario_Postgres",
+    password="Mi_Contraseña_Postgres",
+    database="monster_high",
+    host="fastapi-db",
+    port="5432"
+```
+Crear el archivo .env en backend/api2/Express/ poner las siguentes claves y reemplazar las que digan **Mi_Usuario_Postgres** y **Mi_Contraseña_Postgres**
+```
+    PORT=3000
+    DB_HOST=express-db
+    DB_USER=Mi_Usuario_Postgres
+    DB_PASSWORD=Mi_Contraseña_Postgres
+    DB_NAME=pokemon
+    DB_PORT=5432
+```
+
+### Paso 2: Levantar Docker
+```
+docker compose up --build
+```
+
+### Paso 3: Poblar base de datos Pokemon
+```
+docker-compose run api2 npm run seed
+```
+
+### Paso 4: Entrar a la aplicación
+
+```
+http://[::1]:3000
+```
 
 ## API 1: BolaMagica - NestJS (Node.js + Typescript)
 
@@ -192,7 +228,7 @@ POST Body: Acepta un JSON con { "question": "...", "lucky": true, "locale": "es"
 }
 
 ```
-## API 2: Tema - Express (Node.js)
+## API 2: Pokemon - Express (Node.js)
 ->Ver README.MD carpeta api2/Express
 
 ## Base de datos 3 - PostgreSQL
@@ -214,12 +250,12 @@ La relación es 1:N, una especie tiene muchos personajes.
 
 Justificación: el uso de postgres con fastapi conduce a una buena integración de la misma con la utilización de python, permitiendo operaciones asincrónas y operaciones rápidas en la API
 
-## API 3: Tema - Python (FastAPI)
+## API 3: Monster High - Python (FastAPI)
 
 ->Ver README.MD carpeta api3
 
 ## Frontend
 
-Consume las 3 APIs mencionadas anteriormente, ocupando HTML + Tailwind CSS + JS
+Consume las 3 APIs mencionadas anteriormente, ocupando HTML + Tailwind CSS + React
 
 Además se generó una APK para Android utilizando Apache Cordova
