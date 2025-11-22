@@ -54,7 +54,8 @@ export default function Pokemon() {
       <main className="max-w-4xl mx-auto px-6 py-10">
         <header className="mb-6">
           <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Pokémon</h1>
-          <p className="text-sm text-slate-600 dark:text-slate-300">Conectado a <span className="font-mono">{API_BASE}</span></p>
+          
+          
         </header>
 
         <div className="mb-4 flex gap-3">
@@ -82,9 +83,10 @@ export default function Pokemon() {
                 const id = p.id ?? p._id ?? p.name ?? idx
                 const name = p.name ?? p.nombre ?? `#${id}`
                 const types = p.type ?? p.types ?? p.tipos ?? []
-                const desc = p.description ?? p.descripcion ?? p.info ?? ""
-                const image = p.image ?? p.sprite ?? p.img ?? null
+                const image = p.image_url ?? p.sprite ?? p.img ?? null
                 const weight = p.weight ?? p.peso ?? null
+                const height = p.height ?? p.altura ?? null
+                console.log({ id, name, types, weight, height })
 
                 return (
                   <li key={id} className="bg-white dark:bg-slate-800 rounded-lg shadow overflow-hidden">
@@ -109,20 +111,18 @@ export default function Pokemon() {
 
                     {openId === id && (
                       <div className="border-t px-4 py-3 text-sm text-slate-700 dark:text-slate-200 bg-gray-50 dark:bg-slate-900">
-                        {desc ? <p className="mb-2">{desc}</p> : <p className="mb-2 text-slate-500">Sin descripción.</p>}
+                        <div className="text-xs text-slate-500 space-y-1">
+                            {types && <div>Tipo: {types}</div>}
+                            {weight && <div>Peso: {weight}</div>}
+                            {height && <div>Altura: {height}</div>}
 
-                        <div className="flex items-center justify-between text-xs text-slate-500">
-                          <div>{weight ? `Peso: ${weight}` : ""}</div>
-                          <div className="flex gap-2">
-                            <button onClick={() => navigator.clipboard?.writeText(JSON.stringify(p))} className="px-2 py-1 border rounded text-xs">Copiar JSON</button>
+
+                          <div className="mt-3 flex justify-end">
                             <button onClick={() => setOpenId(null)} className="px-2 py-1 border rounded text-xs">Cerrar</button>
                           </div>
                         </div>
 
-                        <details className="mt-3 text-xs bg-white dark:bg-slate-800 p-2 rounded">
-                          <summary className="cursor-pointer">Ver JSON</summary>
-                          <pre className="mt-2 text-xs overflow-auto max-h-40">{JSON.stringify(p, null, 2)}</pre>
-                        </details>
+
                       </div>
                     )}
                   </li>
