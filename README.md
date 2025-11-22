@@ -165,7 +165,6 @@ Justificación: el uso de postgres con fastapi conduce a una buena integración 
 
 ## API 3: Tema - Python (FastAPI)
 
-Para ver todos los metodos y probarlos, en navegador http://127.0.0.1:8000/docs
 
 Para los metodos CRUD tienen el formato:
 
@@ -187,18 +186,8 @@ GET /personajes
     "personalidad": "Valiente y feroz"
   }
 ]
-... ver SWAGGER http://127.0.0.1:8000/docs
+... ver SWAGGER http://3002:3000/docs
 
-Para levantar la base de datos se ocupa:
-cd api3/postgres
-psql -U postgres -c "CREATE DATABASE monster_high;"
-psql -U postgres -d monster_high -f init.sql
-
-Instalacion dependencias:
-pip install fastapi uvicorn[standard] asyncpg
-
-Para levantar la api:
-uvicorn main:app --reload
 
 
 ```
@@ -210,3 +199,5 @@ uvicorn main:app --reload
 Consume las 3 APIs mencionadas anteriormente, ocupando HTML + Tailwind CSS + JS
 
 Además se generó una APK para Android utilizando Apache Cordova
+## levantar docker:
+  -docker compose up --build
