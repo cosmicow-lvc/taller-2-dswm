@@ -11,8 +11,8 @@ services:
     environment:
       - PORT=3000
       - DB_HOST=express-db
-      - DB_USER=postgres
-      - DB_PASSWORD=123
+      - DB_USER=Mi_Usuario_Postgres
+      - DB_PASSWORD=Mi_Constraseña_Postgres
       - DB_NAME=pokemon
     depends_on:
       - express-db
@@ -20,8 +20,8 @@ services:
   nest-db:
     image: postgres:15
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 123
+      POSTGRES_USER: Mi_Usuario_Postgres
+      POSTGRES_PASSWORD: Mi_Constraseña_Postgres
       POSTGRES_DB: bola_magica
     ports:
       - "5433:5432"
@@ -29,8 +29,8 @@ services:
   fastapi-db:
     image: postgres:15
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 123
+      POSTGRES_USER: Mi_Usuario_Postgres
+      POSTGRES_PASSWORD: Mi_Constraseña_Postgres
       POSTGRES_DB: monster_high
     volumes:
       - ./backend/api3/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -40,8 +40,8 @@ services:
   express-db:
     image: postgres:15
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 123
+      POSTGRES_USER: Mi_Usuario_Postgres
+      POSTGRES_PASSWORD: Mi_Constraseña_Postgres
       POSTGRES_DB: pokemon
     volumes:
       - ./backend/api2/Postgresql/init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -56,8 +56,8 @@ services:
     environment:
         DB_HOST: nest-db
         DB_PORT: 5432
-        DB_USERNAME: postgres
-        DB_PASSWORD: 123
+        DB_USERNAME: Mi_Usuario_Postgres
+        DB_PASSWORD: Mi_Constraseña_Postgres
         DB_NAME: bola_magica
     ports:
       - "3001:3000"
@@ -67,7 +67,7 @@ services:
     depends_on:
       - fastapi-db
     environment:
-      DATABASE_URL: postgres://postgres:123@fastapi-db:5432/monster_high
+      DATABASE_URL: postgres://Mi_Usuario_Postgres:Mi_Constraseña_Postgres@fastapi-db:5432/monster_high
     ports:
       - "3002:3000"
 
@@ -78,7 +78,7 @@ services:
     depends_on:
       - express-db
     environment:
-      DATABASE_URL: postgres://postgres:123@express-db:5432/pokemon
+      DATABASE_URL: postgres://Mi_Usuario_Postgres:Mi_Constraseña_Postgres@express-db:5432/pokemon
     ports:
       - "3003:3000"
 
