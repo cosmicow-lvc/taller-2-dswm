@@ -2,7 +2,7 @@
 
 A continuación se detallan los *endpoints* disponibles en la **API Pokémon**.
 
-**URL Base:** `http://localhost:3000/api`
+**URL Base:** `http://localhost:3003/api/pokemon`
 
 ### 1. Pokémon (CRUD)
 
@@ -13,7 +13,7 @@ Obtiene una lista paginada de Pokémon.
     * `limit` (number): Cantidad de Pokémon a devolver. (Default: 20)
     * `offset` (number): Número de Pokémon a saltar. (Default: 0)
 * **Ejemplo de Petición:**
-    `GET http://localhost:3000/api/pokemon?limit=5&offset=10`
+    `GET http://localhost:3003/api/pokemon?limit=5&offset=10`
 * **Respuesta Exitosa (200 OK):**
     ```json
     [

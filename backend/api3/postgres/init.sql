@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS personajes;
 DROP TABLE IF EXISTS especies;
-CREATE DATABASE monster_high;
+
 \c monster_high;
 
 CREATE TABLE especies (

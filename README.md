@@ -5,9 +5,134 @@
 3. Diego Adaos, 21535504-7
 4. Antonio Tabilo, 21668377-3
 
-## Base de datos 1 - PostgreSQL
+# Prerrequisitos
 
-Tiene esta estructura tanto tanto [Imagen]
+  Docker: https://docs.docker.com/get-started
+
+# Como levantar la aplicación
+  
+### Paso 1: Editar credenciales
+
+Cambiar todas la claves que digan **Mi_Usuario_Postgres** y **Mi_Contraseña_Postgres** en docker-compose.yml
+
+```
+services:
+  api2:
+    build: ./backend/api2/Express
+    volumes:
+      - ./backend/api2/Express:/app
+    ports:
+      - "3006:3000"
+    environment:
+      - PORT=3000
+      - DB_HOST=express-db
+      - DB_USER=Mi_Usuario_Postgres 
+      - DB_PASSWORD=Mi_Contraseña_Postgres
+      - DB_NAME=pokemon
+    depends_on:
+      - express-db
+
+  nest-db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER:Mi_Usuario_Postgres 
+      POSTGRES_PASSWORD: Mi_Contraseña_Postgres
+      POSTGRES_DB: bola_magica
+    ports:
+      - "5433:5432"
+
+  fastapi-db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER:Mi_Usuario_Postgres 
+      POSTGRES_PASSWORD: Mi_Contraseña_Postgres
+      POSTGRES_DB: monster_high
+    volumes:
+      - ./backend/api3/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5434:5432"
+
+  express-db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER:  Mi_Usuario_Postgres
+      POSTGRES_PASSWORD: Mi_Contraseña_Postgres
+      POSTGRES_DB: pokemon
+    volumes:
+      - ./backend/api2/Postgresql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5435:5432"
+
+  # Backends
+  backend-nest:
+    build: ./backend/api-nest
+    depends_on:
+      - nest-db
+    environment:
+        DB_HOST: nest-db
+        DB_PORT: 5432
+        DB_USERNAME: Mi_Usuario_Postgres
+        DB_PASSWORD: Mi_Contraseña_Postgres
+        DB_NAME: bola_magica
+    ports:
+      - "3001:3000"
+
+  backend-fastapi:
+    build: ./backend/api3
+    depends_on:
+      - fastapi-db
+    environment:
+      DATABASE_URL: postgres://Mi_Usuario_Postgres:Mi_Contraseña_Postgres@fastapi-db:5432/monster_high
+    ports:
+      - "3002:3000"
+
+  backend-express:
+    build: 
+      context: ./backend/api2/Express
+      dockerfile: dockerfile
+    depends_on:
+      - express-db
+    environment:
+      DATABASE_URL: postgres://Mi_Usuario_Postgres:Mi_Contraseña_Postgres@express-db:5432/pokemon 
+      
+    ports:
+      - "3003:3000"
+```
+
+Cambiar todas la claves que digan **Mi_Usuario_Postgres** y **Mi_Contraseña_Postgres** en backend/api3/database.py
+
+```
+    user="Mi_Usuario_Postgres",
+    password="Mi_Contraseña_Postgres",
+    database="monster_high",
+    host="fastapi-db",
+    port="5432"
+```
+Crear el archivo .env en backend/api2/Express/ poner las siguentes claves y reemplazar las que digan **Mi_Usuario_Postgres** y **Mi_Contraseña_Postgres**
+```
+    PORT=3000
+    DB_HOST=express-db
+    DB_USER=Mi_Usuario_Postgres
+    DB_PASSWORD=Mi_Contraseña_Postgres
+    DB_NAME=pokemon
+    DB_PORT=5432
+```
+
+### Paso 2: Levantar Docker
+```
+docker compose up --build
+```
+
+### Paso 3: Poblar base de datos Pokemon
+```
+docker-compose run api2 npm run seed
+```
+
+### Paso 4: Entrar a la aplicación
+
+```
+http://[::1]:3000
+```
 
 ## API 1: BolaMagica - NestJS (Node.js + Typescript)
 
@@ -76,14 +201,6 @@ Estructura JSON de respuesta:
 
 ```
 
-Para levantar la API se ocupa
-
-```
-npm install
-npm run start:dev
-```
-
-
 ```
 GET /bola_magica/biased y POST /bola_magica/biased
 ```
@@ -111,38 +228,8 @@ POST Body: Acepta un JSON con { "question": "...", "lucky": true, "locale": "es"
 }
 
 ```
-
-**Para levantar la API se debe:**
-
-1.Crear la base de datos
-
-Por defecto, la aplicación buscará una llamada *bolamagica_db*.
-
-2.Configurar archivo env
-
-Establecer su contraseña dentro del archivo .env
-
-3.Comandos de ejecución
-
-```
-npm install
-npm run start:dev
-```
-
-## Base de datos 2 - PostgreSQL
-
-Tiene esta estructura tanto tanto [Imagen]
-
-## API 2: Tema - Express (Node.js)
-
-Para los metodos CRUD tienen el formato tanto tanto retornan elementos con esta estructura JSON tanto tanto
-
-Para levantar la API se ocupa
-
-```
-npm install
-npm run dev
-```
+## API 2: Pokemon - Express (Node.js)
+->Ver README.MD carpeta api2/Express
 
 ## Base de datos 3 - PostgreSQL
 
@@ -163,50 +250,12 @@ La relación es 1:N, una especie tiene muchos personajes.
 
 Justificación: el uso de postgres con fastapi conduce a una buena integración de la misma con la utilización de python, permitiendo operaciones asincrónas y operaciones rápidas en la API
 
-## API 3: Tema - Python (FastAPI)
+## API 3: Monster High - Python (FastAPI)
 
-Para ver todos los metodos y probarlos, en navegador http://127.0.0.1:8000/docs
-
-Para los metodos CRUD tienen el formato:
-
-Retornan elementos con esta estructura JSON:
-GET /personajes
-[
-  {
-    "id": 1,
-    "nombre": "Draculaura",
-    "edad": 16,
-    "especie_id": 1,
-    "personalidad": "Amable y dulce"
-  },
-  {
-    "id": 2,
-    "nombre": "Clawdeen Wolf",
-    "edad": 16,
-    "especie_id": 2,
-    "personalidad": "Valiente y feroz"
-  }
-]
-... ver SWAGGER http://127.0.0.1:8000/docs
-
-Para levantar la base de datos se ocupa:
-cd api3/postgres
-psql -U postgres -c "CREATE DATABASE monster_high;"
-psql -U postgres -d monster_high -f init.sql
-
-Instalacion dependencias:
-pip install fastapi uvicorn[standard] asyncpg
-
-Para levantar la api:
-uvicorn main:app --reload
-
-
-```
-
-```
+->Ver README.MD carpeta api3
 
 ## Frontend
 
-Consume las 3 APIs mencionadas anteriormente, ocupando HTML + Tailwind CSS + JS
+Consume las 3 APIs mencionadas anteriormente, ocupando HTML + Tailwind CSS + React
 
 Además se generó una APK para Android utilizando Apache Cordova

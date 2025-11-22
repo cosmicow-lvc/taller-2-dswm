@@ -2,9 +2,9 @@ import asyncpg
 
 async def get_connection():
     return await asyncpg.connect(
-        user="postgres",
-        password="123",
+        user="Mi_Usuario_Postgres",
+        password="Mi_Contraseña_Postgres",
         database="monster_high",
-        host="127.0.0.1",
+        host="fastapi-db",
         port="5432"
     )
